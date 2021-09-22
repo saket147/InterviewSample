@@ -50,20 +50,18 @@ class HistoryFragment : Fragment(), VideoItemClickInterface {
 
     //initialising the adapter
     private fun setupUI() {
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView?.layoutManager = LinearLayoutManager(activity)
         adapter = MainAdapter(arrayListOf(), this)
-        recyclerView.addItemDecoration(
+        recyclerView?.addItemDecoration(
             DividerItemDecoration(
-                recyclerView.context,
-                (recyclerView.layoutManager as LinearLayoutManager).orientation
+                recyclerView?.context,
+                (recyclerView?.layoutManager as LinearLayoutManager).orientation
             )
         )
-        recyclerView.adapter = adapter
+        recyclerView?.adapter = adapter
     }
 
     private fun setupObservers() {
-        recyclerView.visibility = View.VISIBLE
-        progressBar.visibility = View.GONE
         uiScope.launch {
             viewModel?.savedVideos?.collect { results ->
                 retrieveList(results)
@@ -75,9 +73,16 @@ class HistoryFragment : Fragment(), VideoItemClickInterface {
     //notifying adapter changes
     //sending data to adapter class
     private fun retrieveList(results: Collection<Results?>?) {
-        adapter.apply {
-            addUsers(results)
-            notifyDataSetChanged()
+        if (results != null && results.isNotEmpty()) {
+            tvEmpty?.visibility = View.GONE
+            recyclerView?.visibility = View.VISIBLE
+            adapter.apply {
+                addUsers(results)
+                notifyDataSetChanged()
+            }
+        }else{
+            recyclerView?.visibility = View.GONE
+            tvEmpty?.visibility = View.VISIBLE
         }
     }
 

@@ -108,39 +108,6 @@ class ConnectionUtil(private var mContext: Context) : LifecycleObserver {
     }
 
 
-    /**
-     * Returns:
-     *
-     * NO_NETWORK_AVAILABLE >>> when you're offline
-     * TRANSPORT_CELLULAR >> When Cellular is the active network
-     * TRANSPORT_WIFI >> When Wi-Fi is the Active network
-     */
-    fun getActiveNetwork(): Int {
-        val activeNetwork = mConnectivityMgr?.activeNetworkInfo // Deprecated in API 29
-        if (activeNetwork != null) if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val capabilities = mConnectivityMgr?.getNetworkCapabilities(
-                mConnectivityMgr?.activeNetwork
-            )
-            if (capabilities != null) if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                // connected to mobile data
-                return TRANSPORT_CELLULAR
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                // connected to wifi
-                return TRANSPORT_WIFI
-            }
-        } else {
-            if (activeNetwork.type == ConnectivityManager.TYPE_MOBILE) { // Deprecated in API 28
-                // connected to mobile data
-                return TRANSPORT_CELLULAR
-            } else if (activeNetwork.type == ConnectivityManager.TYPE_WIFI) { // Deprecated in API 28
-                // connected to wifi
-                return TRANSPORT_WIFI
-            }
-        }
-        return NO_NETWORK_AVAILABLE
-    }
-
-
     fun getAvailableNetworksCount(): Int {
         var count = 0
         val allNetworks = mConnectivityMgr?.allNetworks // added in API 21 (Lollipop)

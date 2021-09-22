@@ -52,10 +52,10 @@ class VideosFragment : Fragment(), VideoItemClickInterface {
         if (connectionUtil?.isOnline() == true) {
             setupObservers()
         } else {
-            progressBar.visibility = View.GONE
-            recyclerView.visibility = View.GONE
-            tvError.visibility = View.VISIBLE
-            tvError.text = "No Internet connection!"
+            progressBar?.visibility = View.GONE
+            recyclerView?.visibility = View.GONE
+            tvError?.visibility = View.VISIBLE
+            tvError?.text = "No Internet connection!"
         }
         activity?.let {
             ConnectionUtil(it).onInternetStateListener(object :
@@ -68,10 +68,10 @@ class VideosFragment : Fragment(), VideoItemClickInterface {
                             }
                         } else {
                             if (videosApiResponse == null) {
-                                progressBar.visibility = View.GONE
-                                recyclerView.visibility = View.GONE
-                                tvError.visibility = View.VISIBLE
-                                tvError.text = "No Internet connection!"
+                                progressBar?.visibility = View.GONE
+                                recyclerView?.visibility = View.GONE
+                                tvError?.visibility = View.VISIBLE
+                                tvError?.text = "No Internet connection!"
                             }
                         }
                     }
@@ -94,15 +94,15 @@ class VideosFragment : Fragment(), VideoItemClickInterface {
 
     //initialising the adapter
     private fun setupUI() {
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView?.layoutManager = LinearLayoutManager(activity)
         adapter = MainAdapter(arrayListOf(), this)
-        recyclerView.addItemDecoration(
+        recyclerView?.addItemDecoration(
             DividerItemDecoration(
-                recyclerView.context,
-                (recyclerView.layoutManager as LinearLayoutManager).orientation
+                recyclerView?.context,
+                (recyclerView?.layoutManager as LinearLayoutManager).orientation
             )
         )
-        recyclerView.adapter = adapter
+        recyclerView?.adapter = adapter
     }
 
     //observing the response from the api
@@ -112,9 +112,9 @@ class VideosFragment : Fragment(), VideoItemClickInterface {
                 it?.let { resource ->
                     when (resource.status) {
                         Status.SUCCESS -> {
-                            recyclerView.visibility = View.VISIBLE
-                            progressBar.visibility = View.GONE
-                            tvError.visibility = View.GONE
+                            recyclerView?.visibility = View.VISIBLE
+                            progressBar?.visibility = View.GONE
+                            tvError?.visibility = View.GONE
                             resource.data?.let { videosResponse: VideosApiResponse ->
                                 this.videosApiResponse = videosResponse
                                 retrieveList(
@@ -123,16 +123,16 @@ class VideosFragment : Fragment(), VideoItemClickInterface {
                             }
                         }
                         Status.ERROR -> {
-                            recyclerView.visibility = View.VISIBLE
-                            progressBar.visibility = View.GONE
-                            tvError.visibility = View.VISIBLE
-                            tvError.text = it.message
+                            recyclerView?.visibility = View.VISIBLE
+                            progressBar?.visibility = View.GONE
+                            tvError?.visibility = View.VISIBLE
+                            tvError?.text = it.message
                             Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
                         }
                         Status.LOADING -> {
-                            progressBar.visibility = View.VISIBLE
-                            recyclerView.visibility = View.GONE
-                            tvError.visibility = View.GONE
+                            progressBar?.visibility = View.VISIBLE
+                            recyclerView?.visibility = View.GONE
+                            tvError?.visibility = View.GONE
                         }
                     }
                 }

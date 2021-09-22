@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUI() {
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
-        viewPager.adapter = viewPagerAdapter
+        viewPager?.adapter = viewPagerAdapter
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
